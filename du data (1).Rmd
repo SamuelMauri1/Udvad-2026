@@ -217,5 +217,5 @@ priem_balance
 segment <- df[df$V1 == "retired", ]
 age_segment <- mean(segment$V1)
 age_segment
-
+#Ja som zmenin tento kod 
 ```

@@ -1,0 +1,221 @@
+---
+title: "Du"
+output: html_document
+date: "2026-03-08"
+---
+
+```{r}
+
+ install.packages("farff")
+ library(farff)
+ df <- readARFF("phpkIxskf.arff")
+```
+
+```{python}
+from ucimlrepo import fetch_ucirepo
+bank = fetch_ucirepo(id=222)
+X = bank.data.features
+y = bank.data.targets
+df = X.copy()
+df["y"] = y
+df
+```
+
+```{r}
+head(df, 5)
+#head() zobrazí prvé riadky datasetu
+```
+
+```{r}
+dim(df)
+#dim() vráti počet riadkov a stĺpcov
+```
+
+```{r}
+str(df)
+#str() zobrazí štruktúru datasetu
+```
+
+```{r}
+names(df)
+#names da mena stlpcou 
+```
+
+```{r}
+table(df$V7)
+#Zistí koľko klientov odpovedalo nie kolko ano 
+```
+
+```{r}
+unique(df$V4)
+```
+
+```{r}
+sapply(df, function(x) length(unique(x)))
+#Spočíta počet unikátnych hodnôt v každom stĺpci.
+```
+
+Deskriptívne štatistiky
+
+```{r}
+summary(df)
+#Zobrazí základné štatistiky (min, max, median, mean).
+```
+
+```{r}
+mean(df$V1)
+#mean primer 
+```
+
+```{r}
+median(df$V6)
+```
+
+```{r}
+min(df$V12)
+max(df$V12)
+#vzpsal som min a max čas na hovoroch 
+```
+
+```{r}
+mean(df$V6)
+median(df$V6)
+#roydiel madzi medianom a priemerom 
+```
+
+```{r}
+sd(df$V13)
+#Štandardná odchýlka campaign
+```
+
+```{r}
+sum(df$V6 < 0)
+#Počet klientov so záporným balance
+```
+
+Výber stĺpcov a riadkov 
+
+```{r}
+selected_data <- df[, c("V1", "V2", "V6")]
+# stĺpce age, job, balance.
+```
+
+```{r}
+selected_data[1:10, ]
+#zobrazenie 10 riadkov 
+```
+
+```{r}
+df[nrow(df), ]
+#zobrazi posledny riadok 
+```
+
+```{r}
+numeric_columns <- df[, sapply(df, is.numeric)]
+#tabulka iba z ciselnimy stlpcamy 
+```
+
+```{r}
+class(df$V1)
+class(df["V1"])
+```
+
+Filtrovanie
+
+```{r}
+df[df$V1>60,]
+#vzfiltova5 vek nad 60 rokov 
+```
+
+```{r}
+df[df$V6 > 1000, ]
+```
+
+```{r}
+df[df$V12 > 300, ]
+
+```
+
+```{r}
+df[df$V1 > 40 & df$V17 == "yes", ]
+# najde my ktory ludia nad 40 suhlasily
+```
+
+```{r}
+df[df$V2 == "retired" | df$V2 == "unemployed", ]
+#najde my nez
+```
+
+```{r}
+df[df$V3 != "single", ]
+#vypise mz len slobodnich ludi 
+```
+
+```{r}
+df[df$V1 >= 25 & df$V1 <= 40, ]
+
+```
+
+```{r}
+df[grep("man", df$V1), ]
+
+```
+
+```{r}
+table(df$V2)
+#Počet klientov podľa job
+```
+
+```{r}
+aggregate(df$V6, by=list(df$V2), mean)
+#Priemerný balance podľa job
+```
+
+```{r}
+aggregate(df$V1, by=list(df$V3), mean)
+```
+
+```{r}
+aggregate(df$V1, by=list(df$V3), mean)
+#Priemerný vek podľa marital
+```
+
+```{r}
+aggregate(V6 ~ V2, data = df[df$V1 > 35, ], mean)
+#Priemerný balance pre klientov nad 35 
+```
+
+```{r}
+aggregate(V6 ~ V2, data = df[df$V1 > 35, ], mean)
+#spravim suhrn priemerný balance pre klientov nad 35
+```
+
+```{r}
+aggregate(df$V6, by=list(df$V2), mean)
+#To ti zobrazí priemerný balance pre každu pracu najlepsi je admin.
+```
+
+```{r}
+table(df$V2)
+#nie je napocetniejsia skupina 
+```
+
+```{r}
+aggregate(df$V1, by=list(df$V3), mean)
+#rozvedeni najvyšší priemerný vek
+```
+
+```{r}
+priem_vek <- mean(df$V1)
+priem_vek
+#priemernz vek 
+
+priem_balance <- mean(df$V6)
+priem_balance
+#priemerny balance
+
+segment <- df[df$V1 == "retired", ]
+age_segment <- mean(segment$V1)
+age_segment
+
+```
